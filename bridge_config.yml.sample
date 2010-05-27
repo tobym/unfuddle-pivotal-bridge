@@ -2,3 +2,4 @@
 # curl -u USERNAME:PASSWORD -X GET https://www.pivotaltracker.com/services/v3/tokens/active
 pivotal_token: c93f12c71bec27843c1d84b3bdd547f3
 pivotal_project_id: 1234
+use_ssl: false
