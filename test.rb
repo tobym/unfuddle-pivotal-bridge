@@ -27,6 +27,10 @@ class UnfuddlePivotalBridgeTest < Test::Unit::TestCase
     assert_equal 434927, @bridge.story_id, "Pivotal Story ID was not extracted correctly"
   end
 
+  def test_extract_commiter
+    assert_equal "Toby Matejovsky", @bridge.commiter, "Commiter's name was not extracted correctly"
+  end
+
   def test_valid
     assert @bridge.valid?, "Bridge should be valid. Errors: #{@bridge.errors.to_s}"
   end

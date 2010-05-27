@@ -8,7 +8,7 @@ module UnfuddlePivotalBridgeError
 end
 
 class UnfuddlePivotalBridge
-  attr_accessor :pivotal_project_id, :changeset, :author, :revision, :message, :story_id
+  attr_accessor :pivotal_project_id, :changeset, :author, :revision, :message, :story_id, :commiter
   attr_reader :errors
 
   def initialize(pivotal_project_id = nil, pivotal_token = nil, use_ssl = nil)
@@ -60,13 +60,14 @@ class UnfuddlePivotalBridge
   end
 
   def comment_xml
-    text  = "Revision #{@revision} committed (#{@message}). "
+    text  = "Revision #{@revision} committed by #{@commiter} (#{@message}). "
     text += "Link: http://#{@unfuddle_account_name}.unfuddle.com/repositories/#{@unfuddle_repository_number}/commit/#{@revision}"
     "<note><text>#{text}</text></note>"
   end
 
   def parse_unfuddle_changeset(xml)
     @changeset = Nokogiri::XML(xml)
+    @commiter = @changeset.xpath('//changeset/committer-name').text
     @revision = @changeset.xpath('//changeset/revision').text
     @message = @changeset.xpath('//changeset/message').text
     @story_id = @message.match(/Story:(\d*)/)[1].to_i rescue nil
