@@ -23,9 +23,9 @@ Quickstart
 ----------
 1. Copy bridge_config.yml.sample to bridge_config.yml and update your settings
 2. Start sinatra endpoint on your server, e.g.
-   ruby endpoint.rb
+   rackup -r endpoint.rb
 3. Edit Unfuddle repository Callback URL to point to the endpoint, e.g.
-   http://www.example.com:4567/unfuddle-pivotal-bridge
+   http://www.example.com:9292/unfuddle-pivotal-bridge
 4. Include Story ID in commit message, e.g.
    git commit -m "Story:12345 Added cool feature"
 5. Endpoint will update Pivotal Tracker story when you push to unfuddle, e.g.
