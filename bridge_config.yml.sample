@@ -1,5 +1,10 @@
 # You can retrive your token with curl like this:
 # curl -u USERNAME:PASSWORD -X GET https://www.pivotaltracker.com/services/v3/tokens/active
+
+# e.g. http://my_repo.unfuddle.com/repositories/5
+unfuddle_repository_number: 5
+unfuddle_account_name: my_repo
+
 pivotal_token: c93f12c71bec27843c1d84b3bdd547f3
 pivotal_project_id: 1234
 use_ssl: false

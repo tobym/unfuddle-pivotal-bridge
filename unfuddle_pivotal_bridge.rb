@@ -25,9 +25,11 @@ class UnfuddlePivotalBridge
 
   def parse_config
     config = YAML.load(File.read("bridge_config.yml"))
-    @pivotal_project_id ||= config["pivotal_project_id"]
-    @pivotal_token      ||= config["pivotal_token"]
-    @ssl                ||= config["use_ssl"]
+    @unfuddle_repository_number ||= config["unfuddle_repository_number"]
+    @unfuddle_account_name      ||= config["unfuddle_account_name"]
+    @pivotal_project_id         ||= config["pivotal_project_id"]
+    @pivotal_token              ||= config["pivotal_token"]
+    @ssl                        ||= config["use_ssl"]
   end
 
   def get_token(username, password)
@@ -58,7 +60,8 @@ class UnfuddlePivotalBridge
   end
 
   def comment_xml
-    text = "Revision #{@revision} committed (#{@message})."
+    text  = "Revision #{@revision} committed (#{@message}). "
+    text += "Link: http://#{@unfuddle_account_name}.unfuddle.com/repositories/#{@unfuddle_repository_number}/commit/#{@revision}"
     "<note><text>#{text}</text></note>"
   end
 
