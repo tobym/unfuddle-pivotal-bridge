@@ -1,0 +1,19 @@
+Unfuddle-to-PivotalTracker Bridge
+=================================
+
+Helps to connect an Unfuddle git repository with Pivotal Tracker stories by
+automatically adding a note to a Story whenever a relevant commit is made. The
+note contains the commit revision and summary.
+
+Configure default settings in bridge_config.yml (see bridge_config.yml.sample),
+or just pass them directly when creating a new bridge object.
+
+There is an example sinatra endpoint for the Unfuddle callback in endpoint.rb.
+You need to configure the callback URL in the Unfuddle Repository settings.
+
+Notes are attached to Stories when the Unfuddle commit message contains the
+string "Story:12345". Functionality is similar to how Unfuddle auto-associates
+changesets to tickets if the commit starts with '#12345'
+
+The api_responses directory contains some examples of data from Unfuddle and
+Pivotal.

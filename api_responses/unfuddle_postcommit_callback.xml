@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changeset>
+  <author-date type="datetime">2010-05-26T17:22:11Z</author-date>
+  <author-email>toby.matejovsky@gmail.com</author-email>
+  <author-id type="integer">1</author-id>
+  <author-name>Toby Matejovsky</author-name>
+  <committer-date type="datetime">2010-05-26T17:22:11Z</committer-date>
+  <committer-email>toby.matejovsky@gmail.com</committer-email>
+  <committer-id type="integer">1</committer-id>
+  <committer-name>Toby Matejovsky</committer-name>
+  <created-at type="datetime">2010-05-26T17:22:11Z</created-at>
+  <id type="integer">3564</id>
+  <message>Story:434927 Implement awesome feature</message>
+  <repository-id type="integer">6</repository-id>
+  <revision>4f657b17281aaae24284bfd15e47f9c279049f9b</revision>
+</changeset>
