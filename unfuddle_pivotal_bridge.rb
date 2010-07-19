@@ -70,7 +70,7 @@ class UnfuddlePivotalBridge
     @commiter = @changeset.xpath('//changeset/committer-name').text
     @revision = @changeset.xpath('//changeset/revision').text
     @message = @changeset.xpath('//changeset/message').text
-    @story_id = @message.match(/Story:(\d*)/)[1].to_i rescue nil
+    @story_id = @message.match(/story\s*:\s*(\d*)/i)[1].to_i rescue nil
   end
 
   def valid?

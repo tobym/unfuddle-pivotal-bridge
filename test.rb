@@ -4,27 +4,35 @@ require 'unfuddle_pivotal_bridge'
 class UnfuddlePivotalBridgeTest < Test::Unit::TestCase
   PID = 1234
   TOKEN = "asdf234sdf234"
+  PTID = 434927 # the Pivotal Tracker Story ID used in the test changesets
 
-  def setup
+  def setup(custom_changeset = changeset)
     @bridge = UnfuddlePivotalBridge.new(PID, TOKEN)
-    @bridge.parse_unfuddle_changeset(changeset)
+    @bridge.parse_unfuddle_changeset(custom_changeset)
   end
 
-  def setup_for_failures
-    @bridge = UnfuddlePivotalBridge.new(PID, TOKEN)
-    @bridge.parse_unfuddle_changeset(bad_changeset)
-  end
+  # def setup_for(custom_changeset)
+    # @bridge = UnfuddlePivotalBridge.new(PID, TOKEN)
+    # @bridge.parse_unfuddle_changeset(custom_changeset)
+  # end
 
   def test_extract_message
-    assert_equal "Story:434927 Implement awesome feature", @bridge.message, "Commit message was not extracted correctly"
+    assert_equal "Story:#{PTID} Implement awesome feature", @bridge.message, "Commit message was not extracted correctly"
   end
 
   def test_extract_revision
     assert_equal "4f657b17281aaae24284bfd15e47f9c279049f9b", @bridge.revision, "Commit revision was not extracted correctly"
   end
 
+  def test_extract_story_id_from_typo
+    ["StoRY: #{PTID}", " SToRY:   #{PTID}  123", "StORY : #{PTID}"].each do |message|
+      setup(changeset(message))
+      assert_equal PTID, @bridge.story_id, "Pivotal Story ID was not extracted correctly (#{message})"
+    end
+  end
+
   def test_extract_story_id
-    assert_equal 434927, @bridge.story_id, "Pivotal Story ID was not extracted correctly"
+    assert_equal PTID, @bridge.story_id, "Pivotal Story ID was not extracted correctly"
   end
 
   def test_extract_commiter
@@ -36,14 +44,14 @@ class UnfuddlePivotalBridgeTest < Test::Unit::TestCase
   end
 
   def test_invalid
-    setup_for_failures
+    setup(bad_changeset)
 
     assert !@bridge.valid?
     assert @bridge.errors.include? "Story ID is missing"
   end
 
   def test_fail_add_note
-    setup_for_failures
+    setup(bad_changeset)
 
     begin
       @bridge.add_note
@@ -57,7 +65,7 @@ class UnfuddlePivotalBridgeTest < Test::Unit::TestCase
 
   private
   # This is the data that Unfuddle POSTs to the repository callback URL
-  def changeset
+  def changeset(message="Story:#{PTID} Implement awesome feature")
     xml =<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <changeset>
@@ -71,13 +79,11 @@ class UnfuddlePivotalBridgeTest < Test::Unit::TestCase
   <committer-name>Toby Matejovsky</committer-name>
   <created-at type="datetime">2010-05-26T17:22:11Z</created-at>
   <id type="integer">3564</id>
-  <message>Story:434927 Implement awesome feature</message>
+  <message>#{message}</message>
   <repository-id type="integer">6</repository-id>
   <revision>4f657b17281aaae24284bfd15e47f9c279049f9b</revision>
 </changeset>
 EOF
-
-  xml
   end
 
   # This is the data that Unfuddle POSTs to the repository callback URL, but contains no Story ID in the commit message
@@ -100,7 +106,5 @@ EOF
   <revision>4f657b17281aaae24284bfd15e47f9c279049f9b</revision>
 </changeset>
 EOF
-
-  xml
   end
 end
