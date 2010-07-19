@@ -24,7 +24,7 @@ class UnfuddlePivotalBridge
   end
 
   def parse_config
-    config = YAML.load(File.read("bridge_config.yml"))
+    config = YAML.load(File.read(File.join(File.dirname(__FILE__), "/bridge_config.yml")))
     @unfuddle_repository_number ||= config["unfuddle_repository_number"]
     @unfuddle_account_name      ||= config["unfuddle_account_name"]
     @pivotal_project_id         ||= config["pivotal_project_id"]
